@@ -1,13 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import logo from '../assets/img2.png';
 import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const toggleRef = useRef(null);
+
+  // Handle clicks outside of dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (toggleRef.current && !toggleRef.current.contains(event.target)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [toggleRef]);
 
   return (
-    <div className="bg-gray-800">
+    <div className="bg-gray-800" ref={toggleRef}>
       {/* Desktop View */}
       <nav className="flex items-center justify-between mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-16" role="navigation">
         <Link to="/" >

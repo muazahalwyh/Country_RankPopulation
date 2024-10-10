@@ -10,7 +10,7 @@ import { fetchCompareCountries } from "../../redux/countrySlice";
 export default function CardCompare() {
   const dispatch = useDispatch();
   const { CompareCountries, isLoading, errorMessage } = useSelector((state) => state.country);
-  
+
   const [leftSelectedCountry, setLeftSelectedCountry] = useState('');
   const [rightSelectedCountry, setRightSelectedCountry] = useState('');
   const [leftCountryInfo, setLeftCountryInfo] = useState(null);
@@ -24,10 +24,9 @@ export default function CardCompare() {
   const rightDropdownRef = useRef(null);
 
   //input
-  const [inputValue, setInputValue] = useState("");
-  const [selected, setSelected] = useState("");
-
-  
+  const [leftInputValue, setLeftInputValue] = useState("");
+  const [rightInputValue, setRightInputValue] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
   useEffect(() => {
     dispatch(fetchCompareCountries());
@@ -50,6 +49,21 @@ export default function CardCompare() {
     };
   }, [leftDropdownRef, rightDropdownRef]);
 
+  useEffect(() => {
+    // Filter countries based on the input value
+    const filtered = CompareCountries.filter(country =>
+      country.name.toLowerCase().includes(leftInputValue.toLowerCase())
+    );
+    setFilteredCountries(filtered);
+  }, [leftInputValue, CompareCountries]);
+
+  useEffect(() => {
+    // Filter countries based on the input value
+    const filtered = CompareCountries.filter(country =>
+      country.name.toLowerCase().includes(rightInputValue.toLowerCase())
+    );
+    setFilteredCountries(filtered);
+  }, [rightInputValue, CompareCountries]);
 
   // Loading state
   if (isLoading) {
@@ -70,19 +84,32 @@ export default function CardCompare() {
 
   // Handle country selection from left dropdown
   const handleLeftCountryChange = (countryName) => {
+    if (rightSelectedCountry === countryName) {
+      alert('You cannot select the same country on both sides! Please Change Your Select Country');
+      return;
+    }
     setLeftSelectedCountry(countryName);
     const selectedInfo = CompareCountries.find((country) => country.name === countryName);
     setLeftCountryInfo(selectedInfo);
+    setLeftInputValue("");
     setIsLeftDropdownOpen(false);
   };
 
   // Handle country selection from right dropdown
   const handleRightCountryChange = (countryName) => {
+    if (leftSelectedCountry === countryName) {
+      alert('You cannot select the same country on both sides! Please Change Your Select Country');
+      return;
+    }
     setRightSelectedCountry(countryName);
     const selectedInfo = CompareCountries.find((country) => country.name === countryName);
     setRightCountryInfo(selectedInfo);
+    setRightInputValue("");
     setIsRightDropdownOpen(false);
   };
+
+  // Check if both countries are selected and not the same
+  const isCompareDisabled = !leftSelectedCountry || !rightSelectedCountry || leftSelectedCountry === rightSelectedCountry;
 
   return (
     <div className="bg-gradient-to-t from-transparent to-blue-200">
@@ -120,12 +147,12 @@ export default function CardCompare() {
                     <ul className="absolute z-10 mt-0.5 w-80 bg-white border border-gray-300 max-h-40 overflow-y-auto rounded-lg shadow-md">
                       <input
                         type="text"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                        value={leftInputValue}
+                        onChange={(e) => setLeftInputValue(e.target.value.toLowerCase())}
                         placeholder="Enter country name"
                         className="placeholder:text-gray-700 px-4 py-2 text-sm outline-none w-full"
                       />
-                      {CompareCountries.map((country, index) => {
+                      {filteredCountries.map((country, index) => {
                         const truncatedName =
                           country.name.length > 40
                             ? country.name.slice(0, 40) + '...' // Limit to 35 characters
@@ -135,26 +162,21 @@ export default function CardCompare() {
                           <li key={index}>
                             <a
                               className={`block px-4 py-1 text-left text-sm hover:bg-gray-200 cursor-pointer"
-                              ${country.name.toLowerCase() === selected?.toLowerCase() &&
-                                "bg-sky-600 text-white"
-                                }
-                              ${country.name.toLowerCase().startsWith(inputValue)
-                                  ? "block"
-                                  : "hidden"
-                                }`}
-                              onClick={() => {
-                                if (country.name.toLowerCase() !== selected.toLowerCase()) {
-                                  handleLeftCountryChange(country.name);
-                                  setSelected(country.name);
-                                  setInputValue("");
-                                }
-                              }}
+                              `}
+                              onClick={() =>
+                                handleLeftCountryChange(country.name)
+                              }
                             >
                               {truncatedName}
                             </a>
                           </li>
                         );
                       })}
+                      {filteredCountries.length === 0 && (
+                        <li>
+                          <span className="block px-4 py-1 text-left text-sm text-gray-400">No countries found</span>
+                        </li>
+                      )}
                     </ul>
                   )}
                 </div>
@@ -193,34 +215,29 @@ export default function CardCompare() {
                     <ul className="absolute z-10 mt-0.5 w-80 bg-white border border-gray-300 max-h-40 overflow-y-auto rounded-lg shadow-md">
                       <input
                         type="text"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                        value={rightInputValue}
+                        onChange={(e) => setRightInputValue(e.target.value.toLowerCase())}
                         placeholder="Enter country name"
                         className="placeholder:text-gray-700 px-4 py-2 text-sm outline-none w-full"
-                      />  
-                      {CompareCountries.map((country, index) => (
+                      />
+                      {filteredCountries.map((country, index) => (
                         <li key={index}>
                           <a
-                              className={`block px-4 py-1 text-left text-sm hover:bg-gray-200 cursor-pointer"
-                              ${country.name.toLowerCase() === selected?.toLowerCase() &&
-                                "bg-sky-600 text-white"
-                                }
-                              ${country.name.toLowerCase().startsWith(inputValue)
-                                  ? "block"
-                                  : "hidden"
-                                }`}
-                              onClick={() => {
-                                if (country.name.toLowerCase() !== selected.toLowerCase()) {
-                                  handleRightCountryChange(country.name);
-                                  setSelected(country.name);
-                                  setInputValue("");
-                                }
-                              }}
-                            >
+                            className={`block px-4 py-1 text-left text-sm hover:bg-gray-200 cursor-pointer"
+                              `}
+                            onClick={() =>
+                              handleRightCountryChange(country.name)
+                            }
+                          >
                             {country.name}
                           </a>
                         </li>
                       ))}
+                      {filteredCountries.length === 0 && (
+                        <li>
+                          <span className="block px-4 py-1 text-left text-sm text-gray-400">No countries found</span>
+                        </li>
+                      )}
                     </ul>
                   )}
                 </div>
@@ -232,7 +249,8 @@ export default function CardCompare() {
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <div className="card-actions">
             <Link to={`/compare/${leftSelectedCountry}/${rightSelectedCountry}`}>
-              <button className="btn btn-primary hover:bg-green-400 hover:border-green-400 px-12">COMPARE</button>
+              <button className="btn btn-primary hover:bg-green-400 hover:border-green-400 px-12"
+                disabled={isCompareDisabled}>COMPARE</button>
             </Link>
           </div>
         </div>
@@ -240,4 +258,3 @@ export default function CardCompare() {
     </div>
   );
 }
-
