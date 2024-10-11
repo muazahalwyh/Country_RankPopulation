@@ -122,8 +122,8 @@ export default function CardCompare() {
             "Every country has a story to tell, and by comparing them, we learn to appreciate the world's vast tapestry."
           </p>
         </div>
-        <div className="md:flex flex-wrap justify-center mt-10 sm:px-0 px-20">
-          <div className="w-80">
+        <div className="sm:flex flex-wrap justify-center mt-10 px-0 p-4">
+          <div className="w-80 ml-6">
             <figure>
               <img
                 src={leftCountryInfo ? leftCountryInfo.image : "https://png.pngtree.com/png-vector/20221009/ourmid/pngtree-globe-icon-design-png-image_6292817.png"}
@@ -135,7 +135,7 @@ export default function CardCompare() {
               <div className="card-actions" ref={leftDropdownRef}>
                 <div className="relative">
                   <div
-                    className="block appearance-none w-80 shadow-md bg-white text-gray-700 py-3 px-4 pr-8 rounded-lg text-sm text-left cursor-pointer"
+                    className="block appearance-none w-72 sm:w-80 shadow-md bg-white text-gray-700 py-3 px-4 pr-8 rounded-lg text-sm text-left cursor-pointer"
                     onClick={() => setIsLeftDropdownOpen(!isLeftDropdownOpen)} // Toggle dropdown
                   >
                     {leftSelectedCountry || 'Select a country'}
@@ -144,7 +144,7 @@ export default function CardCompare() {
 
                   {/* Dropdown Menu */}
                   {isLeftDropdownOpen && (
-                    <ul className="absolute z-10 mt-0.5 w-80 bg-white border border-gray-300 max-h-40 overflow-y-auto rounded-lg shadow-md">
+                    <ul className="absolute z-10 mt-0.5 w-72 sm:w-80 bg-white border border-gray-300 max-h-40 overflow-y-auto rounded-lg shadow-md">
                       <input
                         type="text"
                         value={leftInputValue}
@@ -191,7 +191,7 @@ export default function CardCompare() {
             </div>
           </div>
 
-          <div className="w-80">
+          <div className="w-80 ml-6">
             <figure>
               <img
                 src={rightCountryInfo ? rightCountryInfo.image : "https://png.pngtree.com/png-vector/20221009/ourmid/pngtree-globe-icon-design-png-image_6292817.png"}
@@ -203,7 +203,7 @@ export default function CardCompare() {
               <div className="card-actions" ref={rightDropdownRef}>
                 <div className="relative">
                   <div
-                    className="block appearance-none w-80 shadow-md bg-white text-gray-700 py-3 px-4 pr-8 rounded-lg text-sm text-left cursor-pointer"
+                    className="block appearance-none w-72 sm:w-80 shadow-md bg-white text-gray-700 py-3 px-4 pr-8 rounded-lg text-sm text-left cursor-pointer"
                     onClick={() => setIsRightDropdownOpen(!isRightDropdownOpen)} // Toggle dropdown
                   >
                     {rightSelectedCountry || 'Select a country'}
@@ -212,7 +212,7 @@ export default function CardCompare() {
 
                   {/* Dropdown Menu */}
                   {isRightDropdownOpen && (
-                    <ul className="absolute z-10 mt-0.5 w-80 bg-white border border-gray-300 max-h-40 overflow-y-auto rounded-lg shadow-md">
+                    <ul className="absolute z-10 mt-0.5 w-72 sm:w-80 bg-white border border-gray-300 max-h-40 overflow-y-auto rounded-lg shadow-md">
                       <input
                         type="text"
                         value={rightInputValue}

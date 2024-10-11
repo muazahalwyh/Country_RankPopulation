@@ -10,8 +10,18 @@ export default {
       lineClamp: {
         10 : '10',
         12 : '12',
-      }
-      
+      },
+
+      screens: {
+        'sm': '425px',
+        // => @media (min-width: 425px) { ... }
+  
+        'md': '960px',
+        // => @media (min-width: 960px) { ... }
+  
+        'lg': '1440px',
+        // => @media (min-width: 1440px) { ... }
+      },
     },
   },
   plugins: [

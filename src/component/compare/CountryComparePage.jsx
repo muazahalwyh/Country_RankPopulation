@@ -8,14 +8,14 @@ export default function CountryComparePage() {
   const params = useParams();
   const dispatch = useDispatch();
 
-   const { country1, country2 } = params;
+  const { country1, country2 } = params;
   const { InfoCountries, isLoading, errorMessage } = useSelector((state) => state.country);
   const [country1Info, setCountry1Info] = useState(null);
   const [country2Info, setCountry2Info] = useState(null);
 
   useEffect(() => {
     dispatch(fetchInfoCountries());
-  }, [dispatch]);
+  }, [ dispatch ]);
 
   // Use the country1 and country2 parameters to fetch data or render the page
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function CountryComparePage() {
 
   return (
     <div className='mx-auto sm:p-10 p-0'>
-      <div className='grid sm:grid-cols-2 grid-cols-1 gap-16 px-10 mb-10 auto-rows-max'>
+      <div className='grid md:grid-cols-2 grid-cols-1 gap-16 px-10 mb-10 auto-rows-max'>
         {country1Info && (
           <div className=" bg-lime-200 card w-full shadow-xl">
             <figure>
@@ -64,23 +64,23 @@ export default function CountryComparePage() {
                 <tbody>
                   <tr>
                     <th>Short Name</th>
-                    <td>{country1Info.nameshort}</td>
+                    <td>{country1Info.nameshort || "-"}</td>
                   </tr>
                   <tr>
                     <th>Capital</th>
-                    <td>{country1Info.capital}</td>
+                    <td>{country1Info.capital || "-"}</td>
                   </tr>
                   <tr>
                     <th>Population</th>
-                    <td>{country1Info.population}</td>
+                    <td>{country1Info.population || "-"}</td>
                   </tr>
                   <tr>
                     <th>Area</th>
-                    <td>{country1Info.area}</td>
+                    <td>{country1Info.area || "-"}</td>
                   </tr>
                   <tr>
                     <th>Sub Region</th>
-                    <td>{country1Info.subregion}</td>
+                    <td>{country1Info.subregion || "-"}</td>
                   </tr>
                 </tbody>
               </table>

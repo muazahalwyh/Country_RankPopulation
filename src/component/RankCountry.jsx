@@ -16,8 +16,8 @@ export default function RankCountry() {
     const currentCountries = rankCountries.slice(indexOfFirstCountry, indexOfLastCountry);
 
     // Logic for pagination buttons
-    const startPage = Math.max(1, currentPage - 4);
-    const endPage = Math.min(totalPages, startPage + 9); // Show 10 buttons max
+    const startPage = Math.max(1, currentPage - 3);
+    const endPage = Math.min(totalPages, startPage + 4); // Show 10 buttons max
     const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
     useEffect(() => {
@@ -51,11 +51,11 @@ export default function RankCountry() {
 
     return (
         <div className="py-8">
-            <div className="mb-10 text-center font-bold">
+            <div className="mb-4 text-center font-bold">
                 <h1>RANK COUNTRY POPULATION</h1>
             </div>
-            <div className="overflow-x-auto w-full max-w-4xl md:mx-40 mx-0">
-                <div className="p-4 mx-0 md:mx-20">
+            <div className="overflow-x-auto w-full max-w-4xl md:mx-40 mx-0 ">
+                <div className="p-4 mx-0 md:mx-20 sm:mx-10">
                     <table className="table table-xs bg-lime-200 text-black">
                         <thead className="bg-orange-400 border-b-2 border-black text-black">
                             <tr className="text-center">

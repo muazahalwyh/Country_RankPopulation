@@ -43,7 +43,7 @@ function News() {
         <hr className="border-2 sm:ml-40 sm:mr-40 ml-80 mr-80 mt-4 border-gray-400" />
       </div>
 
-      <div className='grid gap-x-8 gap-y-10 lg:grid-cols-3 grid-cols-1 p-8'>
+      <div className='grid gap-x-8 gap-y-10 md:grid-cols-3 grid-cols-1 p-8'>
         {articles.slice(1, 10).map((articles) => (
           <ItemNews key={articles._id} article={articles} />
         ))}

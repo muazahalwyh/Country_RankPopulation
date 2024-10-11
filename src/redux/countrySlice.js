@@ -14,6 +14,7 @@ export const fetchRankCountries = createAsyncThunk(
 
         // Sort by population in descending order
         return countryData.sort((a, b) => b.population - a.population);
+
     }
 );
 
